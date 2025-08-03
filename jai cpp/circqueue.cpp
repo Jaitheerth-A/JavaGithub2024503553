@@ -7,43 +7,52 @@ int Setlen(int a)
         len=a;
         return len;
 }
-void print(int a[])
-{
-        cout<<"queue:"<<endl;
-        if(rear>front){
-        for(int i=front;i<=rear;i++){cout<<a[i]<<endl;}}
-        else
-        {
-                for(int i=rear;i<=front;i++){cout<<a[i]<<endl;}
-        }
-}
+
 bool isEmpty()
 {
-        return front==-1 && rear==-1;
+        return front==-1;
 }
+
 bool isFull()
 {
         return ((rear+1) % (len)) == front;
 }
+
 void Enqueue(int a[],int b)
 {
-        if(isFull()){cout<<endl<<"STACK IS FULL"<<endl;}
+        if(isFull())
+        {cout<<endl<<"STACK IS FULL,Cannot Insert:"<<b<<endl;return;}
         else{
-        if(isEmpty()) {front++;}
-        rear++;
-        if(rear>len-1){rear%=(len+1);}
+        if(isEmpty()) {front=rear=0;}
+        if(rear>len-1){rear = (rear + 1) % len;}
         a[rear]=b;
         }
         //print(a);
 }
+
 void Dequeue(int a[])
 {
-        if(isEmpty()){cout<<endl<<"QUEUE IS EMPTY"<<endl;}
+        if(isEmpty()){cout<<endl<<"QUEUE IS EMPTY"<<endl;return;}
         int temp=a[front];
-        front++;
         if(front==rear){rear=front=-1;}
-        else if(front>len){front%=(len+1);
+        else {front=(front+1)%(len);
             cout<<"Element removed:"<<temp<<endl;}
+}
+void print(int a[])
+{  
+        cout<<"queue:"<<endl;
+        if(isEmpty()){return;}
+        int count=(rear>=front) ? (rear-front+1) : (len-front+rear+1);
+       for(int i=0;i<count;i++)
+        {
+                if(i==count)
+                {
+                        cout<<a[rear]<<endl;
+                        return;
+                }
+                cout<<a[(front+i)%(len)]<<endl;
+        }
+        cout<<endl;
 }
 int main()
 {
