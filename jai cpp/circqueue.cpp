@@ -56,7 +56,7 @@ void Dequeue(int a[]) {
     cout << "Removed: " << temp << endl;
 }
 
-// Print queue contents using for loop
+
 void print(int a[]) {
     if (isEmpty()) {
         cout << "Queue is Empty." << endl;
