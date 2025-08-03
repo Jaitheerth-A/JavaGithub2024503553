@@ -66,7 +66,7 @@ void print(int a[]) {
     cout << "Queue: ";
     int count = (rear >= front) ? (rear - front + 1) : (len - front + rear + 1);
     for (int i = 0; i < count; i++) {
-        cout << a[(front + i) % len] << " ";
+        cout << a[(front + i) % len] << endl;
     }
     cout << endl;
 }
