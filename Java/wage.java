@@ -39,7 +39,7 @@ class Worker {
     }
 }
 
-public class Wage {
+class Wage {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 

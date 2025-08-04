@@ -50,7 +50,7 @@ Marks()
                    total+=marks[i];
                } if(marks[0]>=50 && marks[1]>=50 && marks[2]>=50 && marks[3]>=50 && marks[4]>=50){status="PASS";}//r++;}
            else {status="FAIL";}
-                avg+=total;numberofstudents++;
+                avg+=total;numberofstudents++;s.close();
 }
 static void CalcRank(Marks a[]) {
    // Setrank();
