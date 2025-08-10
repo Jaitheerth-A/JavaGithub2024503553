@@ -1,31 +1,38 @@
 import java.util.*;
-class purchase
-{
-    purchase(){
-    int team[][]={{11,14},{35,45},{12,18}};
-        int price[]={2000,100,1000}; 
-        int total[][]=new int[2][3];
-        for(int i=0;i<team.length;i++)
-        for(int j=0;j<2;j++)
-        {
-                total[j][i]=team[i][j]*price[i];
-        }
-        System.out.println("Men:");
-        for(int i=0;i<total.length;i++)
-        {
-            for(int j=0;j<total[i].length;j++)
-            {
-                System.out.println(total[i][j]);
-                if(j==total[i].length)break;
+
+class Purchase {
+    Purchase() {
+        // Quantity of items for Women (0) and Men (1)
+        int[][] quantity = {
+            {11, 35, 12},  // Women
+            {14, 45, 18}   // Men
+        };
+
+        // Prices of Bat, Ball, and Sports Uniform respectively
+        int[] price = {2000, 100, 1000};
+
+        // Total cost for each team
+        int[] totalCost = new int[2]; // 0 for Women, 1 for Men
+
+        // Team names for display
+        String[] teams = {"Women", "Men"};
+        String[] items = {"Bat", "Ball", "Sports Uniform"};
+
+        // Calculating total cost for each team
+        for (int team = 0; team < 2; team++) {
+            System.out.println("\n" + teams[team] + " Team Equipment Costs:");
+            for (int item = 0; item < 3; item++) {
+                int itemCost = quantity[team][item] * price[item];
+                System.out.println(items[item] + ": " + quantity[team][item] + " × ₹" + price[item] + " = ₹" + itemCost);
+                totalCost[team] += itemCost;
             }
-            System.out.println("Woman:");
+            System.out.println("Total Cost for " + teams[team] + " Team: ₹" + totalCost[team]);
         }
-        System.out.println("Total price of each team:");
-        System.out.println(Arrays.toString(total[0]));
-    }   
+    }
 }
-public class equipment {
+
+public class Equipment {
     public static void main(String[] args) {
-    new purchase();
+    purchase p1 = new purchase();
 }
 }
