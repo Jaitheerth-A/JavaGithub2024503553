@@ -1,7 +1,7 @@
-import java.util.*;
+//import java.util.*;
 
-class Purchase {
-    Purchase() {
+class purchase {
+    purchase() {
         // Quantity of items for Women (0) and Men (1)
         int[][] quantity = {
             {11, 35, 12},  // Women
@@ -31,7 +31,7 @@ class Purchase {
     }
 }
 
-public class Equipment {
+public class equipment {
     public static void main(String[] args) {
     purchase p1 = new purchase();
 }
