@@ -33,6 +33,6 @@ class purchase {
 
 public class equipment {
     public static void main(String[] args) {
-    purchase p1 = new purchase();
+    new purchase();
 }
 }
