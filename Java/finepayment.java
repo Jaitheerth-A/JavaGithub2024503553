@@ -6,10 +6,9 @@ public class finepayment
     enum type{UG,PG,SCHOLARS,STAFF};
 
     int a;String post=new String();
-    System.out.print("Enter number of borrowed days:");a=sc.nextInt();
+    System.out.print("Enter number of borrowed days:");a=sc.nextInt();sc.nextLine();
     System.out.println("Enter position:");post=sc.nextLine();
-        type p;
-        p=type.valueOf((post.toUpperCase()));
+        type p=type.valueOf((post.toUpperCase()));
         library std=new library();
         switch(p)
         {
@@ -32,7 +31,7 @@ class library
     library(int day){this.day=day; }
     void display()
     {
-        System.out.println("Number of days late:" + day + "\nTotal Fine:" + fine);
+        System.out.println("Number of days late:" + day + "\nTotal Fine:" + "Rs." +calc());
     }
     int calc(){System.out.println("pre defined not defined");return 0;}
 }
