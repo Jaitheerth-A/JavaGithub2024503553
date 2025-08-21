@@ -11,7 +11,7 @@ public class emailid {
         s.close();
         int len=lname.length();
         String email=(fname.substring(0,3)+lname.substring(len-3,len)
-        )+age+id/100+"@xxx.com";
+        )+age+id%100+"@xxx.com";
         System.out.print(email);
     }
 }

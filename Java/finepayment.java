@@ -1,77 +1,131 @@
 import java.util.*;
-public class finepayment
-{
-    public static void main(String[] args){
-    Scanner sc = new Scanner(System.in);
-    enum type{UG,PG,SCHOLARS,STAFF};
 
-    int a;String post=new String();
-    System.out.print("Enter number of borrowed days:");a=sc.nextInt();sc.nextLine();
-    System.out.println("Enter position:");post=sc.nextLine();
-        type p=type.valueOf((post.toUpperCase()));
-        library std=new library();
-        switch(p)
-        {
-            case UG:std=new ug(a);break;
-            case PG:
-            case SCHOLARS:std=new pg(a);break;
-            case STAFF:std=new staff(a);break;
-            default:System.out.println("Error!! invalid choice");
+public class finepayment {
+    enum Type { UG, UNDERGRADUATE, PG, POSTGRADUATE, SCHOLARS, STAFF }
+
+    // Removes all whitespaces (including between words)
+public static String trimAllSpaces(String input) {
+    return input.replaceAll("\\s+", "");
+}
+
+    static void getInfo(library[] std) {
+        Scanner sc = new Scanner(System.in);
+        for (int i = 0; i < std.length; i++) {
+            int days;
+            String post;
+            Type type = null;
+            
+                    System.out.println("Enter details for student " + (i + 1) + ':');
+                    System.out.print("Enter number of borrowed days: ");
+                    days = sc.nextInt();
+                    sc.nextLine(); // consume newline
+                    while (true) {
+                try {
+                    System.out.print("Enter position (UG, PG, SCHOLARS, STAFF): ");
+                    post = sc.nextLine().trim().toUpperCase();
+                    post = trimAllSpaces(post); // Remove all whitespaces
+                    type = Type.valueOf(post);
+                    sc.close();
+                    break;
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Invalid position! Please enter UG, PG, SCHOLARS, or STAFF.");
+                }
+            }
+            switch (type) {
+                case UG:
+                case UNDERGRADUATE:
+                    std[i] = new UG(days);
+                    break;
+                case PG:
+                case POSTGRADUATE:
+                case SCHOLARS:
+                    std[i] = new PG(days);
+                    break;
+                case STAFF:
+                    std[i] = new Staff(days);
+                    break;
+            }
         }
-        std.display();
-        sc.close();
-}}
+    }
 
-class library
-{
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter number of students: ");
+        int n = sc.nextInt();
+        library[] std = new library[n];
+        getInfo(std);
+        System.out.println("\nFine details of students:");
+        for (int i = 0; i < std.length; i++) {
+            System.out.println("Student " + (i + 1) + ':');
+            std[i].display();
+        }
+        sc.close();
+    }
+}
+
+abstract class library {
     int day;
     int fine;
     int finedays;
-    library(){}
-    library(int day){this.day=day; }
-    void display()
-    {
-        System.out.println("Number of days late:" + day + "\nTotal Fine:" + "Rs." +calc());
+
+    library(int day) {
+        this.day = day;
     }
-    int calc(){System.out.println("pre defined not defined");return 0;}
+
+    void display() {
+        System.out.println("Number of days late: " + day + "\nTotal Fine: Rs." + calc());
+    }
+
+    abstract int calc();
 }
 
-
-class ug extends library
-{
-    ug(int day)
-    {
+class UG extends library {
+    UG(int day) {
         super(day);
     }
-    void display(){System.out.println("UG student:");super.display();}
-    int calc()
-    {
-        finedays=Math.max(0, day-15);
-        fine=finedays>=10?(((finedays-10)*10) + (10*5)):finedays*5;
+
+    void display() {
+        System.out.println("UG student:");
+        super.display();
+    }
+
+    int calc() {
+        finedays = Math.max(0, day - 15);
+        fine = finedays >= 10 ? (((finedays - 10) * 10 ) + 10 * 5) : finedays * 5;
         return fine;
     }
 }
 
-class pg extends library
-{
-    pg(int day){super(day);}
-    void display(){System.out.println("PG student:");super.display();}
-    int calc()
-    {
-        finedays=Math.max(0, day-30);
-        fine=finedays>=10?(((finedays-10)*10) + (10*5)):finedays*5;
+class PG extends library {
+    PG(int day) {
+        super(day);
+    }
+
+    void display() {
+        System.out.println("PG student:");
+        super.display();
+    }
+
+    int calc() {
+        finedays = Math.max(0, day - 30);
+        fine = finedays >= 10 ? (((finedays - 10) * 10 ) + 10 * 5) : finedays * 5;
         return fine;
     }
 }
 
-class staff extends library
-{
-    staff(int day){super(day);}
-    void display(){System.out.println("STAFF:");super.display();}
-    int calc()
-    {
-        finedays=Math.max(0, day-90);
-        fine=finedays*10;
+class Staff extends library {
+    Staff(int day) {
+        super(day);
+    }
+
+    void display() {
+        System.out.println("STAFF:");
+        super.display();
+    }
+
+    int calc() {
+        finedays = Math.max(0, day - 90);
+        fine = finedays * 10;
         return fine;
     }
 }

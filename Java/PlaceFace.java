@@ -6,7 +6,7 @@ public class PlaceFace {
         {
             a/=10;l++;
         }
-        System.out.println(l);
+        //System.out.println(l);
         return l;}
     public static void main(String args[]) {
         int x;
@@ -17,7 +17,7 @@ public class PlaceFace {
         "hundred millions","billions"};
         System.out.print("enter integer:");
         x=s.nextInt();
-        System.out.println(x);
+       // System.out.println(x);
         System.out.print("enter digit to search:");
         a=s.nextByte();
         byte l=getlen(x);
@@ -29,7 +29,7 @@ public class PlaceFace {
             }
             x/=10;
         }
-        System.out.println(i);
+       // System.out.println(i);
         System.out.println("Place:"+place[i]+"\nPLace value:"
         +(int)(Math.pow(10,i)*a)+"\nFace value:"+a);
     }
