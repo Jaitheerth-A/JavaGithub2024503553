@@ -1,7 +1,7 @@
 //import java.util.*;
 
-class Purchase1 {
-    Purchase1() {
+class purchase {
+    purchase() {
         int[][] quantity = {
             {11, 35, 12},
             {14, 45, 18}
@@ -19,7 +19,7 @@ class Purchase1 {
             for (int item = 0; item < 3; item++) {
                 int itemCost = quantity[team][item] * price[item];
                 System.out.println(items[item] + ": " 
-                    + quantity[team][item] + " × " + price[item] 
+                    + quantity[team][item] + "x" + price[item] 
                     + " = " + itemCost);
 
                 totalCost[team] += itemCost;
@@ -28,10 +28,7 @@ class Purchase1 {
             System.out.println("Total Cost for " + teams[team] + " Team: " + totalCost[team]);
         }
     }
-}
-
-public class purchase{
-    public static void main(String[] args) {
-        new Purchase1();
+     public static void main(String[] args) {
+        new purchase();
     }
 }
