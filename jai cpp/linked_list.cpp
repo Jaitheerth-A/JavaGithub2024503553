@@ -24,6 +24,14 @@ public:
     {
         head=nullptr;
     }
+    ~linked_list() {
+    node* temp;
+    while(head != nullptr) {
+        temp = head;
+        head = head->next;
+        delete temp;
+    }
+}
     void addinitial(int a)
     {
         node* r=new node(a);
