@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class finepayment {
-    enum Type { UG, UNDERGRADUATE, PG, POSTGRADUATE, SCHOLARS, STAFF }
+    enum Type { UG , UNDERGRADUATE , UNDERGRADUATESTUDENT , PG , POSTGRADUATE , POSTGRADUATESTUDENT , SCHOLARS , STAFF , FACULTY }
 
     // Removes all whitespaces (including between words)
 public static String trimAllSpaces(String input) {
@@ -34,14 +34,17 @@ public static String trimAllSpaces(String input) {
             switch (type) {
                 case UG:
                 case UNDERGRADUATE:
+                case UNDERGRADUATESTUDENT:
                     std[i] = new UG(days);
                     break;
                 case PG:
                 case POSTGRADUATE:
+                case POSTGRADUATESTUDENT:
                 case SCHOLARS:
                     std[i] = new PG(days);
                     break;
                 case STAFF:
+                case FACULTY:
                     std[i] = new Staff(days);
                     break;
             }
