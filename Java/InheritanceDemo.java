@@ -129,6 +129,6 @@ class Child1 extends Parent1 {
 class ConstructorOrderDemo {
     public static void main(String[] args) {
         System.out.println("Creating Child Object:");
-        Child1 obj = new Child1();
+       // Child1 obj = new Child1();
     }
 }
