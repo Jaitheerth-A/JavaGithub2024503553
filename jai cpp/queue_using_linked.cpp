@@ -1,5 +1,6 @@
 //queue_using_linked.cpp
 #include <iostream>
+#include<algorithm>
 //#include <iomanip>
 #include <map>
 using namespace std;
