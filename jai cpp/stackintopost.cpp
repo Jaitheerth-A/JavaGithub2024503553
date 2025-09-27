@@ -1,8 +1,11 @@
 #include <iostream>
-#include <cctype>
+#include <cctype>  // for isalnum()
+#include <cstdlib> // for exit()
 using namespace std;
 
-// Node for character stack
+// ---------------------------
+// Node class for character stack
+// ---------------------------
 class CharNode {
 public:
     char data;
@@ -13,7 +16,9 @@ public:
     }
 };
 
-// Stack class for characters
+// ---------------------------
+// Stack class (using linked list)
+// ---------------------------
 class CharStack {
     CharNode* top;
 public:
@@ -27,8 +32,8 @@ public:
 
     char pop() {
         if (isEmpty()) {
-            cout << "Stack Underflow!\n";
-            return '\0';
+            cout << "\n❌ Error: Stack underflow! Expression might be invalid.\n";
+            exit(1);
         }
         char val = top->data;
         CharNode* del = top;
@@ -46,7 +51,9 @@ public:
     }
 };
 
-// Expression class for infix to postfix conversion
+// ---------------------------
+// Expression Converter Class
+// ---------------------------
 class ExpressionConverter {
 public:
     int precedence(char op) {
@@ -61,19 +68,29 @@ public:
         string postfix = "";
 
         for (char c : infix) {
-            if (isalnum(c)) {  // Operand
+            // Case 1: Operand
+            if (isalnum(c)) {
                 postfix += c;
-            } 
+            }
+            // Case 2: Opening bracket
             else if (c == '(') {
                 st.push(c);
-            } 
+            }
+            // Case 3: Closing bracket
             else if (c == ')') {
+                // Pop until '(' is found
                 while (!st.isEmpty() && st.peek() != '(') {
                     postfix += st.pop();
                 }
-                st.pop(); // Remove '('
-            } 
-            else { // Operator
+                // If no '(' found -> unmatched ')'
+                if (st.isEmpty()) {
+                    cout << "\n❌ Error: Unmatched ')' found in expression.\n";
+                    exit(1);
+                }
+                st.pop(); // remove '('
+            }
+            // Case 4: Operator
+            else {
                 while (!st.isEmpty() && precedence(st.peek()) >= precedence(c)) {
                     postfix += st.pop();
                 }
@@ -81,17 +98,22 @@ public:
             }
         }
 
-        // Pop remaining operators
+        // After processing, check for leftover '('
         while (!st.isEmpty()) {
+            if (st.peek() == '(') {
+                cout << "\n❌ Error: Unmatched '(' found in expression.\n";
+                exit(1);
+            }
             postfix += st.pop();
         }
+
         return postfix;
     }
 };
 
-// ===============================
-// Main Function
-// ===============================
+// ---------------------------
+// Main function
+// ---------------------------
 int main() {
     ExpressionConverter converter;
     string infix;
@@ -100,7 +122,7 @@ int main() {
     cin >> infix;
 
     string postfix = converter.infixToPostfix(infix);
-    cout << "Postfix Expression: " << postfix << endl;
+    cout << "\n✅ Postfix Expression: " << postfix << endl;
 
     return 0;
 }
