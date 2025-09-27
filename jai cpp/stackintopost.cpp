@@ -32,7 +32,7 @@ public:
 
     char pop() {
         if (isEmpty()) {
-            cout << "\n❌ Error: Stack underflow! Expression might be invalid.\n";
+            cout << "\n Error: Stack underflow! Expression might be invalid.\n";
             exit(1);
         }
         char val = top->data;
@@ -84,7 +84,7 @@ public:
                 }
                 // If no '(' found -> unmatched ')'
                 if (st.isEmpty()) {
-                    cout << "\n❌ Error: Unmatched ')' found in expression.\n";
+                    cout << "\n Error: Unmatched ')' found in expression.\n";
                     exit(1);
                 }
                 st.pop(); // remove '('
@@ -101,7 +101,7 @@ public:
         // After processing, check for leftover '('
         while (!st.isEmpty()) {
             if (st.peek() == '(') {
-                cout << "\n❌ Error: Unmatched '(' found in expression.\n";
+                cout << "\n Error: Unmatched '(' found in expression.\n";
                 exit(1);
             }
             postfix += st.pop();
@@ -122,7 +122,7 @@ int main() {
     cin >> infix;
 
     string postfix = converter.infixToPostfix(infix);
-    cout << "\n✅ Postfix Expression: " << postfix << endl;
+    cout << "\nPostfix Expression: " << postfix << endl;
 
     return 0;
 }
