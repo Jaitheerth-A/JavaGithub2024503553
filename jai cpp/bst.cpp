@@ -1,4 +1,4 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
 
 class Node {
@@ -12,6 +12,7 @@ public:
         right = nullptr;
     }
 };
+
 class BST {
     Node* root;
 
@@ -28,40 +29,34 @@ class BST {
         return node;
     }
 
-    // Helper function for in-order traversal
+    // Inorder Traversal (LNR)
     void inOrder(Node* node) {
         if (node == nullptr)
             return;
-
         inOrder(node->left);
         cout << node->data << " ";
         inOrder(node->right);
     }
+
+    // Preorder Traversal (NLR)
     void preOrder(Node* node) {
         if (node == nullptr)
             return;
-
         cout << node->data << " ";
         preOrder(node->left);
         preOrder(node->right);
     }
-    void preOrder() {
-        preOrder(root);
-        cout << endl;
-    }
+
+    // Postorder Traversal (LRN)
     void postOrder(Node* node) {
-        if (node == nullptr)        
-            return;     
+        if (node == nullptr)
+            return;
         postOrder(node->left);
         postOrder(node->right);
         cout << node->data << " ";
     }
-    void postOrder() {
-        postOrder(root);
-        cout << endl;
-    }
 
-    // Helper function to search a key
+    // Search a key
     bool search(Node* node, int key) {
         if (node == nullptr)
             return false;
@@ -74,14 +69,14 @@ class BST {
             return search(node->right, key);
     }
 
-    // Helper function to find the minimum node in subtree
+    // Find minimum node in a subtree
     Node* findMin(Node* node) {
         while (node && node->left != nullptr)
             node = node->left;
         return node;
     }
 
-    // Helper function to delete a node
+    // Delete a node
     Node* deleteNode(Node* node, int key) {
         if (node == nullptr)
             return node;
@@ -91,26 +86,19 @@ class BST {
         else if (key > node->data)
             node->right = deleteNode(node->right, key);
         else {
-            // Node to delete found
-
-            // Case 1: Node with no child
+            // Node found
             if (node->left == nullptr && node->right == nullptr) {
                 delete node;
                 return nullptr;
-            }
-            // Case 2: Node with one child
-            else if (node->left == nullptr) {
+            } else if (node->left == nullptr) {
                 Node* temp = node->right;
                 delete node;
                 return temp;
-            }
-            else if (node->right == nullptr) {
+            } else if (node->right == nullptr) {
                 Node* temp = node->left;
                 delete node;
                 return temp;
-            }
-            // Case 3: Node with two children
-            else {
+            } else {
                 Node* temp = findMin(node->right);
                 node->data = temp->data;
                 node->right = deleteNode(node->right, temp->data);
@@ -127,7 +115,29 @@ public:
     }
 
     void inOrder() {
+        if (root == nullptr) {
+            cout << "Tree is empty.\n";
+            return;
+        }
         inOrder(root);
+        cout << endl;
+    }
+
+    void preOrder() {
+        if (root == nullptr) {
+            cout << "Tree is empty.\n";
+            return;
+        }
+        preOrder(root);
+        cout << endl;
+    }
+
+    void postOrder() {
+        if (root == nullptr) {
+            cout << "Tree is empty.\n";
+            return;
+        }
+        postOrder(root);
         cout << endl;
     }
 
@@ -137,57 +147,65 @@ public:
 
     void deleteNode(int key) {
         root = deleteNode(root, key);
-    } 
+    }
+
     void menu() {
-        cout << "1. Insert" << endl;
-        cout << "2. Inorder Traversal" << endl;
-        cout << "3. Preorder Traversal" << endl;
-        cout << "4. Postorder Traversal" << endl;
-        cout << "5. Search" << endl;
-        cout << "6. Delete" << endl;
-        cout << "7. Exit" << endl;
+        cout << "\n--- Binary Search Tree Menu ---\n";
+        cout << "1. Insert\n";
+        cout << "2. Inorder Traversal\n";
+        cout << "3. Preorder Traversal\n";
+        cout << "4. Postorder Traversal\n";
+        cout << "5. Search\n";
+        cout << "6. Delete\n";
+        cout << "7. Exit\n";
+
         int choice, val;
         do {
-            cout << "Enter your choice: ";
+            cout << "\nEnter your choice: ";
             cin >> choice;
             switch (choice) {
-                case 1:      
+                case 1:
                     cout << "Enter value to insert: ";
                     cin >> val;
                     insert(val);
                     break;
                 case 2:
-                    cout << "Inorder Traversal:" << endl;
+                    cout << "Inorder Traversal: ";
                     inOrder();
                     break;
                 case 3:
-                    cout << "Preorder Traversal:" << endl;
+                    cout << "Preorder Traversal: ";
                     preOrder();
                     break;
                 case 4:
-                    cout << "Postorder Traversal:" << endl;
+                    cout << "Postorder Traversal: ";
                     postOrder();
                     break;
                 case 5:
                     cout << "Enter value to search: ";
-                    cin >> val; 
+                    cin >> val;
                     if (search(val))
-                        cout << val << " found in the tree." << endl;
+                        cout << val << " found in the tree.\n";
                     else
-                        cout << val << " not found in the tree." << endl;
+                        cout << val << " not found in the tree.\n";
                     break;
                 case 6:
                     cout << "Enter value to delete: ";
                     cin >> val;
-                    deleteNode(val);
-                    cout << val << " deleted from the tree." << endl;
+                    if (search(val)) {
+                        deleteNode(val);
+                        cout << val << " deleted from the tree.\n";
+                    } else {
+                        cout << val << " not found in the tree.\n";
+                    }
                     break;
                 case 7:
-                    cout << "Exiting..." << endl;
+                    cout << "Exiting...\n";
                     break;
                 default:
-                    cout << "Invalid choice. Try again." << endl;
-    }        } while (choice != 7);
+                    cout << "Invalid choice. Try again.\n";
+            }
+        } while (choice != 7);
     }
 };
 
