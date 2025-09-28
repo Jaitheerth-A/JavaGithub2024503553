@@ -1,4 +1,4 @@
-package geometry.Geom;
+package Geom;
 
 import geometry.Circle;
 import geometry.Rectangle;
