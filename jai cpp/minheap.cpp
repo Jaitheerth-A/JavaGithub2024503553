@@ -1,134 +1,108 @@
 #include <iostream>
-#include <climits> // for INT_MIN
 using namespace std;
 
-// Node class for BST
-class Node {
-public:
-    int data;
-    Node* left;
-    Node* right;
-
-    Node(int val) {
-        data = val;
-        left = right = nullptr;
-    }
-};
-
-// Priority Queue implemented using BST
 class PriorityQueue {
 private:
-    Node* root;
+    int arr[100];   // array to store heap elements
+    int size;       // current size of heap
 
-    // Insert node into BST
-    Node* insert(Node* node, int val) {
-        if (node == nullptr) return new Node(val);
-        if (val < node->data)
-            node->left = insert(node->left, val);
-        else
-            node->right = insert(node->right, val); // duplicates go right
-        return node;
-    }
-
-    // Find minimum node (leftmost)
-    Node* findMin(Node* node) {
-        if (!node) return nullptr;
-        while (node->left != nullptr)
-            node = node->left;
-        return node;
-    }
-
-    // Delete a node with a given value
-    Node* deleteNode(Node* node, int val) {
-        if (node == nullptr) return nullptr;
-
-        if (val < node->data)
-            node->left = deleteNode(node->left, val);
-        else if (val > node->data)
-            node->right = deleteNode(node->right, val);
-        else {
-            // Node found
-            if (node->left == nullptr) {
-                Node* temp = node->right;
-                delete node;
-                return temp;
-            } else if (node->right == nullptr) {
-                Node* temp = node->left;
-                delete node;
-                return temp;
+    // Heapify up (for insert)
+    void heapifyUp(int index) {
+        while (index > 0) {
+            int parent = (index - 1) / 2;
+            if (arr[parent] < arr[index]) {
+                swap(arr[parent], arr[index]);
+                index = parent;
+            } else {
+                break;
             }
-
-            // Node with two children: replace with inorder successor
-            Node* successor = findMin(node->right);
-            node->data = successor->data;
-            node->right = deleteNode(node->right, successor->data);
         }
-        return node;
     }
 
-    // Inorder traversal
-    void inorder(Node* node) {
-        if (node == nullptr) return;
-        inorder(node->left);
-        cout << node->data << " ";
-        inorder(node->right);
+    // Heapify down (for extract)
+    void heapifyDown(int index) {
+        int largest = index;
+        int left = 2 * index + 1;
+        int right = 2 * index + 2;
+
+        if (left < size && arr[left] > arr[largest])
+            largest = left;
+        if (right < size && arr[right] > arr[largest])
+            largest = right;
+
+        if (largest != index) {
+            swap(arr[index], arr[largest]);
+            heapifyDown(largest);
+        }
     }
 
 public:
-    PriorityQueue() { root = nullptr; }
+    PriorityQueue() { size = 0; }
 
-    // Insert value (enqueue)
+    // Insert element
     void insert(int val) {
-        root = insert(root, val);
+        if (size >= 100) {
+            cout << "Queue is full!" << endl;
+            return;
+        }
+        arr[size] = val;
+        heapifyUp(size);
+        size++;
         cout << "Inserted: " << val << endl;
     }
 
-    // Get minimum value (peek)
-    int getMin() {
-        if (root == nullptr) {
+    // Get maximum element
+    int getMax() {
+        if (size == 0) {
             cout << "Queue is empty!" << endl;
-            return INT_MIN;
+            return -1;
         }
-        Node* minNode = findMin(root);
-        return minNode->data;
+        return arr[0];
     }
 
-    // Extract minimum (dequeue)
-    void extractMin() {
-        if (root == nullptr) {
+    // Extract maximum element
+    void extractMax() {
+        if (size == 0) {
             cout << "Queue is empty!" << endl;
             return;
         }
-        int minVal = getMin();
-        root = deleteNode(root, minVal);
-        cout << "Extracted min: " << minVal << endl;
+        int maxVal = arr[0];
+        arr[0] = arr[size - 1];
+        size--;
+        heapifyDown(0);
+        cout << "🗑️ Extracted max: " << maxVal << endl;
     }
 
-    // Check if queue is empty
-    bool isEmpty() {
-        return root == nullptr;
-    }
-
-    // Display priority queue in ascending order
+    // Display heap
     void display() {
-        if (root == nullptr) {
-            cout << "Priority Queue is empty." << endl;
+        if (size == 0) {
+            cout << " Queue is empty!" << endl;
             return;
         }
-        cout << "Priority Queue (ascending): ";
-        inorder(root);
+        cout << "Priority Queue (heap order): ";
+        for (int i = 0; i < size; i++)
+            cout << arr[i] << " ";
         cout << endl;
     }
-    void menu(){
-         int choice, value;
 
-    cout << "====== PRIORITY QUEUE USING BST (MIN-HEAP) ======" << endl;
+    // Check if empty
+    bool isEmpty() {
+        return size == 0;
+    }
+};
+
+// ------------------- MENU -------------------
+int main() {
+    PriorityQueue pq;
+    int choice, value;
+
+    cout << "====== MAX PRIORITY QUEUE USING ARRAY ======" << endl;
 
     while (true) {
         cout << "\n------ MENU ------" << endl;
         cout << "1. Insert element" << endl;
-        cout << "2. Get minimum element" << endl;
-        cout << "3. Extract minimum element" << endl;
+        cout << "2. Get maximum element" << endl;
+        cout << "3. Extract maximum element" << endl;
         cout << "4. Display queue" << endl;
         cout << "5. Check if queue is empty" << endl;
         cout << "6. Exit" << endl;
@@ -139,41 +113,29 @@ public:
             case 1:
                 cout << "Enter value to insert: ";
                 cin >> value;
-                insert(value);
+                pq.insert(value);
                 break;
-
             case 2:
-                if (!isEmpty())
-                    cout << "Minimum element: " << getMin() << endl;
+                if (!pq.isEmpty())
+                    cout << " Maximum element: " << pq.getMax() << endl;
                 break;
-
             case 3:
-                extractMin();
+                pq.extractMax();
                 break;
-
             case 4:
-                display();
+                pq.display();
                 break;
-
             case 5:
-                if (isEmpty())
-                    cout << "Queue is empty." << endl;
+                if (pq.isEmpty())
+                    cout << " Queue is empty." << endl;
                 else
-                    cout << "Queue is NOT empty." << endl;
+                    cout << " Queue is NOT empty." << endl;
                 break;
-
             case 6:
-                cout << "Exiting program.Thank you!" << endl;return;
+                cout << " Exiting program. Thank you!" << endl;
+                return 0;
             default:
-                cout << "Invalid choice! Try again." << endl;
+                cout << " Invalid choice! Try again." << endl;
         }
     }
-    }
-};
-
-// Main program
-int main() {
-    PriorityQueue pq;
-    pq.menu();
-    return 0;
 }
